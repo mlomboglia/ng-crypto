@@ -21,6 +21,8 @@ import {ForgotPassword2Component, ForgotPasswordStep1Component} from "./public/a
 import {LogoutComponent, RegistrationConfirmationComponent} from "./public/auth/confirm/confirmRegistration.component";
 import {ResendCodeComponent} from "./public/auth/resend/resendCode.component";
 import {NewPasswordComponent} from "./public/auth/newpassword/newpassword.component";
+import { HeaderComponent } from './public/header/header.component';
+import { FooterComponent } from './public/footer/footer.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import {NewPasswordComponent} from "./public/auth/newpassword/newpassword.compon
         MyProfileComponent,
         SecureHomeComponent,
         JwtComponent,
-        AppComponent
+        AppComponent,
+        HeaderComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
