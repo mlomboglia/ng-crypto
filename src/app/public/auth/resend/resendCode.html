@@ -1,23 +1,44 @@
-<form class="form-signin" method="POST" action="#" role="form">
-    <div class="form-group">
-        <h2>Resend Code</h2>
-    </div>
-    <div *ngIf="errorMessage!=null" class="alert alert-danger">
-        {{ errorMessage }}
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="signupEmail">Email</label>
-        <input id="signupEmail" type="email" maxlength="50" class="form-control" [(ngModel)]="email"
-               [ngModelOptions]="{standalone: true}">
-    </div>
-    <div class="form-group">
-        <button (click)="resendCode()" id="signupSubmit" type="submit" class="btn btn-info btn-block">
-            Resend Code
-        </button>
-    </div>
+<div *ngIf="errorMessage!=null" class="alert alert-danger">
+    {{ errorMessage }}
+</div>
+<!-- Resend Code -->
+<section class="g-bg-gray-light-v5">
+    <div class="container g-py-100">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-lg-5">
+                <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+                    <header class="text-center mb-4">
+                        <h2 class="h2 g-color-black g-font-weight-600">Resend Code</h2>
+                    </header>
 
-    <hr>
-    <p><a [routerLink]="['/home/register']"> <i class="fa fa-fw fa-group"></i> Register</a> <a
-            [routerLink]="['/home/login']"> <i class="fa fa-fw fa-user"></i> Login</a>
-    </p>
-</form>
+                    <!-- Form -->
+                    <form class="g-py-15" method="POST" action="#" role="form">
+                        <div class="mb-4">
+                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
+                            <input id="signupEmail" required type="email" maxlength="100" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15"
+                                [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="mb-4">
+                            <button (click)="resendCode()" id="signupSubmit" type="submit" class="btn btn-md btn-block u-btn-primary rounded g-py-13">
+                                Resend Code
+                            </button>
+                        </div>
+                    </form>
+                    <!-- End Form -->
+
+                    <footer class="text-center">
+                        <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Don't have an account?
+                            <a class="g-font-weight-600" [routerLink]="['/home/register']">
+                                <i class="fa fa-fw fa-group"></i> Register</a>
+                        </p>
+                        <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Already have an account?
+                            <a class="g-font-weight-600" [routerLink]="['/home/login']">
+                                <i class="fa fa-fw fa-lock"></i>Login</a>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Resend Code -->
