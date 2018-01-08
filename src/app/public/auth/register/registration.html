@@ -1,64 +1,79 @@
-<div *ngIf="errorMessage!=null" class="alert alert-danger">
-        {{ errorMessage }}
-    </div>
 <!-- Signup -->
 <section class="g-bg-gray-light-v5">
-    <div class="container g-py-100">
+    <div class="container g-py-50">
         <div class="row justify-content-center">
             <div class="col-sm-10 col-md-9 col-lg-6">
-                <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+                <div class="u-shadow-v21 g-bg-white rounded g-py-30 g-px-30">
                     <header class="text-center mb-4">
                         <h2 class="h2 g-color-black g-font-weight-600">Signup</h2>
                     </header>
 
+                    <!-- Danger Alert -->
+                    <div *ngIf="errorMessage!=null" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Oh snap!</strong> {{ errorMessage }}
+                    </div>
+                    <!-- End Danger Alert -->
+
                     <!-- Form -->
-                    <form class="g-py-15" method="POST" action="#" role="form">
-                        <div class="mb-4">
-                                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Name:</label>
-                                <input id="signupName" type="text" maxlength="50" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15"
-                                    [(ngModel)]="registrationUser.name" [ngModelOptions]="{standalone: true}">
+                    <form class="g-py-15" novalidate (ngSubmit)="onRegister()" #f="ngForm">
+                        <div class="form-group g-mb-4" [ngClass]="{
+                                    'u-has-error-v1': name.invalid && name.touched,
+                                    'u-has-success-v1': name.valid && name.touched
+                         }">
+                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Name:</label>
+                            <input type="text" class="form-control" maxlength="50" name="name" [(ngModel)]="model.name" required #name="ngModel">
+                            <div class="form-control-feedback" *ngIf="name.errors && name.touched">
+                                <small *ngIf="name.errors.required">Name is required</small>
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
-                            <input id="signupEmail" type="email" maxlength="50" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15"
-                                 [(ngModel)]="registrationUser.email" [ngModelOptions]="{standalone: true}">
+                        <div class="form-group g-mb-4" [ngClass]="{
+                            'u-has-error-v1': email.invalid && (email.dirty || email.touched),
+                            'u-has-success-v1': email.valid && (email.dirty || email.touched)
+                         }">
+                             <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
+                             <input type="email" class="form-control" name="email" [(ngModel)]="model.email" required pattern="[^ @]*@[^ @]*" #email="ngModel">
+                             <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+                                 <small *ngIf="email.errors.required">Email is required</small>
+                                 <small *ngIf="email.errors.pattern">Email must contain at least the @ character</small>
+                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6 mb-4">
+                            <div class="form-group col-xs-12 col-sm-6 g-mb-4" [ngClass]="{
+                                'u-has-error-v1': password.invalid && password.touched,
+                                'u-has-success-v1': password.valid && password.touched
+                            }">
                                 <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password:</label>
-                                <input id="signupPassword" type="password" maxlength="25" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" placeholder="at least 8 characters" length="40"
-                                    [(ngModel)]="registrationUser.password" [ngModelOptions]="{standalone: true}">
+                                <input type="password" class="form-control" maxlength="25" name="password" [(ngModel)]="model.password" validateEqual="confirmPassword" reverse="true" required #password="ngModel" placeholder="at least 8 characters" length="40">
+                                <div class="form-control-feedback" *ngIf="password.errors && password.touched">
+                                    <small *ngIf="password.errors.required">Password is required</small>
+                                    <small [hidden]="password.valid || (password.pristine && !f.submitted)">Password Mismatch</small>
+                                </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6 mb-4">
+                            <div class="form-group col-xs-12 col-sm-6 g-mb-4" [ngClass]="{
+                                'u-has-error-v1': confirmPassword.invalid && confirmPassword.touched,
+                                'u-has-success-v1': confirmPassword.valid && confirmPassword.touched
+                            }">
                                 <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Confirm Password:</label>
-                                <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15"
-                                    type="password" placeholder="Password">
+                                <input type="password" class="form-control" maxlength="25" name="confirmPassword" [(ngModel)]="model.confirmPassword" validateEqual="password" reverse="false" required #confirmPassword="ngModel"  placeholder="Password" length="40">
+                                <div class="form-control-feedback" *ngIf="confirmPassword.errors && confirmPassword.touched">
+                                    <small *ngIf="confirmPassword.errors.required">Confirm Password is required</small>
+                                    <small [hidden]="confirmPassword.valid || (confirmPassword.pristine && !f.submitted)">Password Mismatch</small>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="row justify-content-between mb-5">
-                            <div class="col-8 align-self-center">
-                                <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-13 g-pl-25">
-                                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
-                                    <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                                        <i class="fa" data-check-icon="#xf00c"></i>
-                                    </div>
-                                    I accept the
-                                    <a href="#!">Terms and Conditions</a>
-                                </label>
-                            </div>
-                            <div class="col-4 align-self-center text-right">
-                                <button (click)="onRegister()" id="signupSubmit" type="button" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">
-                                    Signup
-                                </button>
-                            </div>
+                        <br>
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-md btn-block u-btn-primary rounded g-py-13" [disabled]="f.invalid">Signup
+                            </button>
                         </div>
                     </form>
                     <!-- End Form -->
-
                     <footer class="text-center">
                         <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Already have an account?
                             <a class="g-font-weight-600" [routerLink]="['/home/login']">

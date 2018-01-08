@@ -1,29 +1,55 @@
-<form class="form-signin" method="POST" action="#" role="form">
-    <div class="form-group">
-        <h2>Confirm Registration</h2>
+<!-- Confirm Code -->
+<section class="g-bg-gray-light-v5">
+    <div class="container g-py-50">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-lg-5">
+                <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+                    <header class="text-center mb-4">
+                        <h2 class="h2 g-color-black g-font-weight-600">Confirm Registration</h2>
+                    </header>
+
+                    <!-- Danger Alert -->
+                    <div *ngIf="errorMessage!=null" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Oh snap!</strong> {{ errorMessage }}
+                    </div>
+                    <!-- End Danger Alert -->
+
+                    <!-- Form -->
+                    <form class="g-py-15" novalidate (ngSubmit)="onConfirmRegistration()" #f="ngForm">
+                        <div class="form-group g-mb-4" [ngClass]="{
+                                'u-has-error-v1': verificationCode.invalid && verificationCode.touched,
+                                'u-has-success-v1': verificationCode.valid && verificationCode.touched
+                            }">
+                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Verification Code:</label>
+                            <input type="text" class="form-control" maxlength="50" name="name" [(ngModel)]="model.verificationCode" required #verificationCode="ngModel">
+                            <div class="form-control-feedback" *ngIf="verificationCode.errors && verificationCode.touched">
+                                <small *ngIf="verificationCode.errors.required">Verification Code is required</small>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-md btn-block u-btn-primary rounded g-py-13" [disabled]="f.invalid">Confirm
+                            </button>
+                        </div>
+                    </form>
+                    <!-- End Form -->
+
+                    <footer class="text-center">
+                        <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Can't find your code?
+                            <a class="g-font-weight-600" [routerLink]="['/home/resendCode']">
+                                <i class="fa fa-fw fa-group"></i> Resend Code</a>
+                        </p>
+                        <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Already have an account?
+                            <a class="g-font-weight-600" [routerLink]="['/home/login']">
+                                <i class="fa fa-fw fa-lock"></i>Login</a>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
     </div>
-    <div *ngIf="errorMessage!=null" class="alert alert-danger">
-        {{ errorMessage }}
-    </div>
-    <div class="form-group" *ngIf="email===null">
-        <label class="control-label" for="confirmationCode">Email</label>
-        <input id="email" type="email" maxlength="50" class="form-control"
-               [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="confirmationCode">Confirmation Code</label>
-        <input id="confirmationCode" type="text" maxlength="50" class="form-control"
-               [(ngModel)]="confirmationCode" [ngModelOptions]="{standalone: true}">
-    </div>
-    <div class="form-group">
-        <button (click)="onConfirmRegistration()" id="confirmRegistration" type="submit"
-                class="btn btn-info btn-block">Confirm
-        </button>
-    </div>
-    <hr>
-    <p>Can't find your code? <a [routerLink]="['/home/resendCode']"> <i class="fa fa-fw fa-group"></i> Resend
-        Code</a>
-        <a [routerLink]="['/home/register']"> <i class="fa fa-fw fa-group"></i> Register</a> <a
-                [routerLink]="['/home/login']"> <i class="fa fa-fw fa-user"></i> Login</a>
-    </p>
-</form>
+</section>
+<!-- End Confirm Code -->

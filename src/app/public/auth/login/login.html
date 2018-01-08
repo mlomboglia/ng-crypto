@@ -22,7 +22,7 @@
                         <div class="form-group g-mb-35" [ngClass]="{
                            'u-has-error-v1': email.invalid && (email.dirty || email.touched),
                            'u-has-success-v1': email.valid && (email.dirty || email.touched)
-                      }">
+                        }">
                             <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
                             <input type="email" class="form-control" name="email" [(ngModel)]="model.email" required pattern="[^ @]*@[^ @]*" #email="ngModel">
                             <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">

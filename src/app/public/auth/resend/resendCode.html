@@ -1,9 +1,6 @@
-<div *ngIf="errorMessage!=null" class="alert alert-danger">
-    {{ errorMessage }}
-</div>
 <!-- Resend Code -->
 <section class="g-bg-gray-light-v5">
-    <div class="container g-py-100">
+    <div class="container g-py-50">
         <div class="row justify-content-center">
             <div class="col-sm-8 col-lg-5">
                 <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
@@ -11,16 +8,31 @@
                         <h2 class="h2 g-color-black g-font-weight-600">Resend Code</h2>
                     </header>
 
+                    <!-- Danger Alert -->
+                    <div *ngIf="errorMessage!=null" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Oh snap!</strong> {{ errorMessage }}
+                    </div>
+                    <!-- End Danger Alert -->
+
                     <!-- Form -->
-                    <form class="g-py-15" method="POST" action="#" role="form">
-                        <div class="mb-4">
+                    <form class="g-py-15" novalidate (ngSubmit)="resendCode()" #f="ngForm">
+                        <div class="form-group g-mb-4" [ngClass]="{
+                                'u-has-error-v1': email.invalid && (email.dirty || email.touched),
+                                'u-has-success-v1': email.valid && (email.dirty || email.touched)
+                        }">
                             <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
-                            <input id="signupEmail" required type="email" maxlength="100" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15"
-                                [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                            <input type="email" class="form-control" name="email" [(ngModel)]="model.email" required pattern="[^ @]*@[^ @]*" #email="ngModel">
+                            <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+                                <small *ngIf="email.errors.required">Email is required</small>
+                                <small *ngIf="email.errors.pattern">Email must contain at least the @ character</small>
+                            </div>
                         </div>
+                        <br>
                         <div class="mb-4">
-                            <button (click)="resendCode()" id="signupSubmit" type="submit" class="btn btn-md btn-block u-btn-primary rounded g-py-13">
-                                Resend Code
+                            <button type="submit" class="btn btn-md btn-block u-btn-primary rounded g-py-13" [disabled]="f.invalid">Resend Code
                             </button>
                         </div>
                     </form>

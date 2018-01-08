@@ -1,13 +1,11 @@
-import {Component} from "@angular/core";
 import {Router} from "@angular/router";
+import { Component, OnInit, ViewChild, Directive, forwardRef, Attribute, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { NG_VALIDATORS,Validator,Validators,AbstractControl,ValidatorFn } from '@angular/forms';
+
 import {UserRegistrationService} from "../../../service/user-registration.service";
 import {CognitoCallback} from "../../../service/cognito.service";
+import { User } from './../../../shared/user.model';
 
-export class RegistrationUser {
-    name: string;
-    email: string;
-    password: string;
-}
 /**
  * This component is responsible for displaying and controlling
  * the registration of the user.
@@ -17,7 +15,8 @@ export class RegistrationUser {
     templateUrl: './registration.html'
 })
 export class RegisterComponent implements CognitoCallback {
-    registrationUser: RegistrationUser;
+    model: User = new User();
+    @ViewChild('f') form: any;
     router: Router;
     errorMessage: string;
 
@@ -27,13 +26,16 @@ export class RegisterComponent implements CognitoCallback {
     }
 
     onInit() {
-        this.registrationUser = new RegistrationUser();
         this.errorMessage = null;
     }
 
     onRegister() {
         this.errorMessage = null;
-        this.userRegistration.register(this.registrationUser, this);
+        if (this.form.valid) {
+            this.userRegistration.register(this.model, this);
+        } else {
+            this.errorMessage = "All fields are required";
+        }
     }
 
     cognitoCallback(message: string, result: any) {

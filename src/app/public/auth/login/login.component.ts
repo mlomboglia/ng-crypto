@@ -3,12 +3,7 @@ import {Router} from "@angular/router";
 import {UserLoginService} from "../../../service/user-login.service";
 import {CognitoCallback, LoggedInCallback} from "../../../service/cognito.service";
 import {DynamoDBService} from "../../../service/ddb.service";
-
-class Login {
-    constructor(public email: string = '',
-                public password: string = '') {
-    }
-  }
+import { User } from './../../../shared/user.model';
 
 @Component({
     selector: 'awscognito-angular2-app',
@@ -16,7 +11,7 @@ class Login {
 })
 export class LoginComponent implements CognitoCallback, LoggedInCallback, OnInit {
     errorMessage: string;
-    model: Login = new Login();
+    model: User = new User();
     @ViewChild('f') form: any;
 
     constructor(public router: Router,

@@ -23,6 +23,7 @@ import {ResendCodeComponent} from "./public/auth/resend/resendCode.component";
 import {NewPasswordComponent} from "./public/auth/newpassword/newpassword.component";
 import { HeaderComponent } from './public/header/header.component';
 import { FooterComponent } from './public/footer/footer.component';
+import { EqualValidator } from './shared/equal-validator.directive';  // import validator
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { FooterComponent } from './public/footer/footer.component';
         JwtComponent,
         AppComponent,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        EqualValidator
     ],
     imports: [
         BrowserModule,

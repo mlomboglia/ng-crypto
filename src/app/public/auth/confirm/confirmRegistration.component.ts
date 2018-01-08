@@ -1,17 +1,20 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UserRegistrationService} from "../../../service/user-registration.service";
-import {UserLoginService} from "../../../service/user-login.service";
-import {LoggedInCallback} from "../../../service/cognito.service";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UserRegistrationService } from "../../../service/user-registration.service";
+import { UserLoginService } from "../../../service/user-login.service";
+import { LoggedInCallback } from "../../../service/cognito.service";
+import { User } from './../../../shared/user.model';
 
 @Component({
     selector: 'awscognito-angular2-app',
     template: ''
 })
 export class LogoutComponent implements LoggedInCallback {
+    @ViewChild('f') form: any;
+    model: User = new User();
 
     constructor(public router: Router,
-                public userService: UserLoginService) {
+        public userService: UserLoginService) {
         this.userService.isAuthenticated(this)
     }
 
@@ -30,8 +33,8 @@ export class LogoutComponent implements LoggedInCallback {
     templateUrl: './confirmRegistration.html'
 })
 export class RegistrationConfirmationComponent implements OnInit, OnDestroy {
-    confirmationCode: string;
-    email: string;
+    @ViewChild('f') form: any;
+    model: User = new User();
     errorMessage: string;
     private sub: any;
 
@@ -40,7 +43,7 @@ export class RegistrationConfirmationComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-            this.email = params['username'];
+            this.model.email = params['username'];
 
         });
 
@@ -53,7 +56,7 @@ export class RegistrationConfirmationComponent implements OnInit, OnDestroy {
 
     onConfirmRegistration() {
         this.errorMessage = null;
-        this.regService.confirmRegistration(this.email, this.confirmationCode, this);
+        this.regService.confirmRegistration(this.model.email, this.model.verificationCode, this);
     }
 
     cognitoCallback(message: string, result: any) {
